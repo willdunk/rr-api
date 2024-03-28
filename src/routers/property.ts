@@ -11,8 +11,7 @@ propertyRouter.use(express.json());
 // GET
 propertyRouter.get("/", async (_req: Request, res: Response) => {
     try {
-        const newProperty = await Property.create({ name: uuid() })
-        console.log(newProperty);
+        const newProperty = await Property.create({ name: uuid() });
         res.status(StatusCodes.CREATED).json(newProperty);
     } catch (error) {
         //@ts-ignore
