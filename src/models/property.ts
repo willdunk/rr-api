@@ -1,7 +1,16 @@
-import { ObjectId } from "mongodb";
+import { Schema, model } from 'mongoose';
 
-export default class Property {
-  constructor(public name: string, public id?: ObjectId) {
+const COLLECTION_NAME = 'property';
 
-  }
+interface Property {
+    name: string,
 }
+
+const propertySchema = new Schema<Property>({
+    name: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true });
+
+export const Property = model<Property>(COLLECTION_NAME, propertySchema);
