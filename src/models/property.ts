@@ -9,7 +9,7 @@ interface Property {
 const propertySchema = new Schema<Property>({
     name: {
         type: String,
-        required: true
+        required: true,
     }
 }, { timestamps: true });
 
