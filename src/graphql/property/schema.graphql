@@ -1,7 +1,18 @@
 type Property {
+    id: String
     name: String
+    parcelIds: [String!]
 }
 
 type Query {
     properties: [Property]
+}
+
+input PropertyInput {
+    name: String
+    parcelIds: [String!]
+}
+
+type Mutation {
+    createNewProperty(property: PropertyInput): Property   
 }
