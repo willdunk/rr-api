@@ -1,23 +1,36 @@
-import express, { Request, Response } from 'express';
 import { connectDB } from './config/db';
-import { propertyRouter } from './routers/property';
-
-const app = express();
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { loadFiles } from '@graphql-tools/load-files';
 
 const port = 3000;
 
-const startDB = async () => {
+const main = async () => {
     try {
         await connectDB("mongodb://localhost:27017/rr");
-        console.log('Mongodb is connected!!!')
-        app.listen(port, () => {
-            console.log(`Server is listening on port ${port}...`);
-        })
+        console.log("MongoDB Connected");
+
+        const schema = makeExecutableSchema({
+            typeDefs: await loadFiles('src/graphql/**/*.graphql'),
+            resolvers: await loadFiles('src/graphql/**/resolvers.{ts,js}'),
+        });
+        console.log("GraphQL Schema Created");
+
+        const server = new ApolloServer({ schema });
+        console.log("Apollo Server Created")
+
+        const { url } = await startStandaloneServer(server, {
+            listen: { port },
+        });
+
+        console.log(`Server ready at: ${url}`);
     } catch (error) {
         console.log(error);
     }
 }
 
-startDB();
-
-app.use('/property', propertyRouter);
+main().catch(error => {
+    console.error(error)
+    process.exit(1)
+});
