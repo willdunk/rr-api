@@ -1,0 +1,27 @@
+type Vertex {
+    latitude: String!
+    longitude: String!
+}
+
+type Parcel {
+    _id: String
+    vertices: [Vertex!]
+}
+
+type Query {
+    parcels(propertyId: String!): [Parcel!]
+}
+
+input VertexInput {
+    latitude: String!
+    longitude: String!
+}
+
+input ParcelInput {
+    propertyId: String!
+    vertices: [VertexInput!]!
+}
+
+type Mutation {
+    createNewParcel(parcel: ParcelInput!): Parcel   
+}

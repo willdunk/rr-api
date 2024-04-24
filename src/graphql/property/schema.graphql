@@ -1,11 +1,11 @@
 type Property {
-    id: String
+    _id: String
     name: String
     parcelIds: [String!]
 }
 
 type Query {
-    properties: [Property]
+    properties: [Property!]
 }
 
 input PropertyInput {
@@ -14,5 +14,5 @@ input PropertyInput {
 }
 
 type Mutation {
-    createNewProperty(property: PropertyInput): Property   
+    createNewProperty(property: PropertyInput!): Property   
 }
