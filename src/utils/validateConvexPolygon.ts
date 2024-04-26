@@ -1,4 +1,4 @@
-type Coordinate = [number, number];
+export type Coordinate = [number, number];
 
 function calculateOrientation(p: Coordinate, q: Coordinate, r: Coordinate): number {
     const val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1]);
@@ -45,7 +45,7 @@ function areCoordinatesValid(coordinates: Coordinate[]): boolean {
     return true;
 }
 
-function isValidPolygon(coordinates: Coordinate[]): boolean {
+export function isValidPolygon(coordinates: Coordinate[]): boolean {
     if (!areCoordinatesValid(coordinates)) return false;
 
     const isConvexPolygon = isConvex(coordinates);
@@ -55,15 +55,15 @@ function isValidPolygon(coordinates: Coordinate[]): boolean {
 }
 
 // Example usage:
-const coordinates: Coordinate[] = [
-    [40.7128, -74.0060], // New York City
-    [34.0522, -118.2437], // Los Angeles
-    [41.8781, -87.6298], // Chicago
-    [29.7604, -95.3698], // Houston
-    [40.7128, -74.0060] // New York City (closing point)
-];
+// const coordinates: Coordinate[] = [
+//     [40.7128, -74.0060], // New York City
+//     [34.0522, -118.2437], // Los Angeles
+//     [41.8781, -87.6298], // Chicago
+//     [29.7604, -95.3698], // Houston
+//     [40.7128, -74.0060] // New York City (closing point)
+// ];
 
-console.log(isValidPolygon(coordinates));
+// console.log(isValidPolygon(coordinates));
 
 // New York - Dallas - Miami (Valid Convex Polygon)
 // [40.708689, -74.013540],
