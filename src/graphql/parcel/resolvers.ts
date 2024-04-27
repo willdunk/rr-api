@@ -1,12 +1,12 @@
+import { MutationCreateNewParcelArgs, QueryParcelsArgs, Resolvers } from "../../generated/generatedTypes";
 import { createNewParcel } from "../../modules/parcel/createNewParcel";
 import { getParcels } from "../../modules/parcel/getParcels";
 
-export const resolvers = {
+export const resolvers: Resolvers = {
     Query: {
-        parcels: (parent: any, args: any, contextValue: any, info: any) => getParcels(args?.propertyId),
+        parcels: (parent, args: QueryParcelsArgs, contextValue, info) => getParcels(args.propertyId),
     },
     Mutation: {
-        // TODO: @willdunk This typing is why codegen is useful
-        createNewParcel: (parent: any, args: any, contextValue: any, info: any) => createNewParcel(args?.parcel)
+        createNewParcel: (parent, args: MutationCreateNewParcelArgs, contextValue, info) => createNewParcel(args.parcel)
     }
 };

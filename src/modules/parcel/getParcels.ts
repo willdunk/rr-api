@@ -1,9 +1,7 @@
 import { Property } from "../../models/property";
 
 export const getParcels = async (propertyId: string) => {
-    const property = await Property.findById(propertyId).populate('parcelIds');
-    if (property !== null) {
+    return await Property.findById(propertyId).populate('parcelIds').orFail().then((property) => {
         return property.parcelIds;
-    };
-    throw new Error(`Cannot find Property with propertyId: ${propertyId}`);
+    });
 }
