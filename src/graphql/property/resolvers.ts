@@ -1,12 +1,12 @@
+import { MutationCreateNewPropertyArgs, MutationResolvers, PropertyInput, Resolvers } from "../../generated/generatedTypes";
 import { createNewProperty } from "../../modules/property/createNewProperty";
 import { getProperties } from "../../modules/property/getProperties";
 
-export const resolvers = {
+export const resolvers: Resolvers = {
     Query: {
         properties: () => getProperties(),
     },
     Mutation: {
-        // TODO: @willdunk This typing is why codegen is useful
-        createNewProperty: (parent: any, args: any, contextValue: any, info: any) => createNewProperty(args?.property)
+        createNewProperty: (parent, args: MutationCreateNewPropertyArgs, contextValue, info) => createNewProperty(args.property)
     }
 };

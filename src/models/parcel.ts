@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { v4 as uuid } from 'uuid';
 
 const COLLECTION_NAME = 'parcel';
 
@@ -19,10 +20,15 @@ const vertexSchema = new Schema<Vertex>({
 })
 
 export type Parcel = {
+    _id: string,
     vertices: Vertex[],
 }
 
 const parcelSchema = new Schema<Parcel>({
+    _id: {
+        type: String,
+        default: uuid,
+    },
     vertices: {
         type: [vertexSchema],
         required: true
