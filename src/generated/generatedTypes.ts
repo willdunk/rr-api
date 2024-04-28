@@ -18,8 +18,16 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addNewPropertyToUser?: Maybe<User>;
   createNewParcel?: Maybe<Parcel>;
   createNewProperty?: Maybe<Property>;
+  createNewUser?: Maybe<User>;
+};
+
+
+export type MutationAddNewPropertyToUserArgs = {
+  propertyId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 
@@ -30,6 +38,11 @@ export type MutationCreateNewParcelArgs = {
 
 export type MutationCreateNewPropertyArgs = {
   property: PropertyInput;
+};
+
+
+export type MutationCreateNewUserArgs = {
+  user: UserInput;
 };
 
 export type Parcel = {
@@ -59,11 +72,33 @@ export type Query = {
   __typename?: 'Query';
   parcels?: Maybe<Array<Parcel>>;
   properties?: Maybe<Array<Property>>;
+  user?: Maybe<Array<User>>;
 };
 
 
 export type QueryParcelsArgs = {
   propertyId: Scalars['String']['input'];
+};
+
+
+export type QueryUserArgs = {
+  userId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  _id?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  firstName?: Maybe<Scalars['String']['output']>;
+  lastName?: Maybe<Scalars['String']['output']>;
+  memberProperties?: Maybe<Array<Property>>;
+};
+
+export type UserInput = {
+  email: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Vertex = {
@@ -157,6 +192,8 @@ export type ResolversTypes = ResolversObject<{
   PropertyInput: PropertyInput;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  User: ResolverTypeWrapper<User>;
+  UserInput: UserInput;
   Vertex: ResolverTypeWrapper<Vertex>;
   VertexInput: VertexInput;
 }>;
@@ -171,13 +208,17 @@ export type ResolversParentTypes = ResolversObject<{
   PropertyInput: PropertyInput;
   Query: {};
   String: Scalars['String']['output'];
+  User: User;
+  UserInput: UserInput;
   Vertex: Vertex;
   VertexInput: VertexInput;
 }>;
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  addNewPropertyToUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationAddNewPropertyToUserArgs, 'propertyId' | 'userId'>>;
   createNewParcel?: Resolver<Maybe<ResolversTypes['Parcel']>, ParentType, ContextType, RequireFields<MutationCreateNewParcelArgs, 'parcel'>>;
   createNewProperty?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType, RequireFields<MutationCreateNewPropertyArgs, 'property'>>;
+  createNewUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateNewUserArgs, 'user'>>;
 }>;
 
 export type ParcelResolvers<ContextType = any, ParentType extends ResolversParentTypes['Parcel'] = ResolversParentTypes['Parcel']> = ResolversObject<{
@@ -196,6 +237,16 @@ export type PropertyResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   parcels?: Resolver<Maybe<Array<ResolversTypes['Parcel']>>, ParentType, ContextType, RequireFields<QueryParcelsArgs, 'propertyId'>>;
   properties?: Resolver<Maybe<Array<ResolversTypes['Property']>>, ParentType, ContextType>;
+  user?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType, Partial<QueryUserArgs>>;
+}>;
+
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  _id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  memberProperties?: Resolver<Maybe<Array<ResolversTypes['Property']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type VertexResolvers<ContextType = any, ParentType extends ResolversParentTypes['Vertex'] = ResolversParentTypes['Vertex']> = ResolversObject<{
@@ -209,6 +260,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Parcel?: ParcelResolvers<ContextType>;
   Property?: PropertyResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
   Vertex?: VertexResolvers<ContextType>;
 }>;
 
