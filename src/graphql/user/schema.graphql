@@ -1,0 +1,23 @@
+type User {
+    _id: String
+    firstName: String
+    lastName: String
+    email: String
+    memberProperties: [Property!]
+}
+
+type Query {
+    user(userId: String): [User!]
+}
+
+input UserInput {
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+}
+
+type Mutation {
+    createNewUser(user: UserInput!): User
+    addNewPropertyToUser(userId: String!, propertyId: String!): User   
+}
