@@ -4,7 +4,10 @@ import { getProperties } from "../../modules/property/getProperties";
 
 export const resolvers: Resolvers = {
     Query: {
-        properties: () => getProperties(),
+        properties: (parent, args, contextValue, info) => {
+            console.log(contextValue);
+            return getProperties()
+        },
     },
     Mutation: {
         createNewProperty: (parent, args: MutationCreateNewPropertyArgs, contextValue, info) => createNewProperty(args.property)
