@@ -4,12 +4,29 @@ import { Property } from './property';
 
 const COLLECTION_NAME = 'user';
 
+export type RefreshToken = {
+    refreshTokenHash: string;
+    expiresOn: Date;
+}
+
+const refreshTokenSchema = new Schema<RefreshToken>({
+    refreshTokenHash: {
+        type: String,
+        required: true,
+    },
+    expiresOn: {
+        type: Date,
+        required: true
+    }
+})
+
 export type User = {
     _id: string,
     firstName: string,
     lastName: string,
     email: string,
     passwordHash: string,
+    refreshTokenHashes?: RefreshToken[]
     memberProperties: PopulatedDoc<Property & Document>[],
 }
 
@@ -33,6 +50,9 @@ const userSchema = new Schema<User>({
     passwordHash: {
         type: String,
         required: true
+    },
+    refreshTokenHashes: {
+        type: [refreshTokenSchema],
     },
     memberProperties: {
         type: [{ type: Schema.Types.String, ref: 'property' }],
