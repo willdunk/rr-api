@@ -1,4 +1,4 @@
-import { Document, PopulatedDoc, Schema, model } from 'mongoose';
+import { Document, PopulatedDoc, Schema, model, Types, Model } from 'mongoose';
 import { v4 as uuid } from 'uuid';
 import { Property } from './property';
 
