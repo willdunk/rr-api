@@ -19,5 +19,5 @@ input UserInput {
 
 type Mutation {
     createNewUser(user: UserInput!): User
-    addNewPropertyToUser(userId: String!, propertyId: String!): User   
+    addNewPropertyToUser(userId: String!, propertyId: String!): User
 }

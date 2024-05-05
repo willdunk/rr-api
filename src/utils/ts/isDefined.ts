@@ -1,3 +1,3 @@
-export function isDefined(value: unknown): value is unknown {
+export function isDefined<T>(value: T | undefined): value is T {
     return value !== undefined;
 }

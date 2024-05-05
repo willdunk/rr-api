@@ -1,0 +1,9 @@
+type AuthResult {
+    accessToken: String
+    refreshToken: String
+}
+
+type Mutation {
+    login(email: String!, password: String!): AuthResult!
+    refresh(refreshToken: String!): AuthResult!
+}

@@ -16,12 +16,20 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AuthResult = {
+  __typename?: 'AuthResult';
+  accessToken?: Maybe<Scalars['String']['output']>;
+  refreshToken?: Maybe<Scalars['String']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addNewPropertyToUser?: Maybe<User>;
   createNewParcel?: Maybe<Parcel>;
   createNewProperty?: Maybe<Property>;
   createNewUser?: Maybe<User>;
+  login: AuthResult;
+  refresh: AuthResult;
 };
 
 
@@ -43,6 +51,17 @@ export type MutationCreateNewPropertyArgs = {
 
 export type MutationCreateNewUserArgs = {
   user: UserInput;
+};
+
+
+export type MutationLoginArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+
+export type MutationRefreshArgs = {
+  refreshToken: Scalars['String']['input'];
 };
 
 export type Parcel = {
@@ -184,6 +203,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  AuthResult: ResolverTypeWrapper<AuthResult>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Parcel: ResolverTypeWrapper<Parcel>;
@@ -200,6 +220,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  AuthResult: AuthResult;
   Boolean: Scalars['Boolean']['output'];
   Mutation: {};
   Parcel: Parcel;
@@ -214,11 +235,19 @@ export type ResolversParentTypes = ResolversObject<{
   VertexInput: VertexInput;
 }>;
 
+export type AuthResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthResult'] = ResolversParentTypes['AuthResult']> = ResolversObject<{
+  accessToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  refreshToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addNewPropertyToUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationAddNewPropertyToUserArgs, 'propertyId' | 'userId'>>;
   createNewParcel?: Resolver<Maybe<ResolversTypes['Parcel']>, ParentType, ContextType, RequireFields<MutationCreateNewParcelArgs, 'parcel'>>;
   createNewProperty?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType, RequireFields<MutationCreateNewPropertyArgs, 'property'>>;
   createNewUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateNewUserArgs, 'user'>>;
+  login?: Resolver<ResolversTypes['AuthResult'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
+  refresh?: Resolver<ResolversTypes['AuthResult'], ParentType, ContextType, RequireFields<MutationRefreshArgs, 'refreshToken'>>;
 }>;
 
 export type ParcelResolvers<ContextType = any, ParentType extends ResolversParentTypes['Parcel'] = ResolversParentTypes['Parcel']> = ResolversObject<{
@@ -256,6 +285,7 @@ export type VertexResolvers<ContextType = any, ParentType extends ResolversParen
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
+  AuthResult?: AuthResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Parcel?: ParcelResolvers<ContextType>;
   Property?: PropertyResolvers<ContextType>;
