@@ -6,6 +6,7 @@ const config: CodegenConfig = {
         './src/generated/generatedTypes.ts': {
             config: {
                 useIndexSignature: true,
+                contextType: '../types/RRGraphQLContext#RRGraphQLContext'
             },
             plugins: ['typescript', 'typescript-resolvers'],
         },

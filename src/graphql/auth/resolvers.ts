@@ -1,11 +1,9 @@
-import { MutationLoginArgs, MutationRefreshArgs, Resolvers } from "../../generated/generatedTypes";
-import { login } from "../../modules/auth/login";
-import { refresh } from "../../modules/auth/refresh";
-import { RRGraphQLContext } from "../context";
+import { Resolvers } from "../../generated/generatedTypes";
+import { login, refresh } from "../../handlers/auth";
 
 export const resolvers: Resolvers = {
     Mutation: {
-        login: (parent, args: MutationLoginArgs, contextValue: RRGraphQLContext, info) => login(args.email, args.password),
-        refresh: (parent, args: MutationRefreshArgs, contextValue: RRGraphQLContext, info) => refresh(args.refreshToken)
+        login,
+        refresh
     }
 };

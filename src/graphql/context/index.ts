@@ -3,11 +3,7 @@ import { StandaloneServerContextFunctionArgument } from "@apollo/server/dist/esm
 import jwt from 'jsonwebtoken';
 import { secrets } from "../../modules/auth/secrets";
 import { isDefined } from "../../utils/ts/isDefined";
-
-export type RRGraphQLContext = {
-    userId: string | undefined;
-    accessToken: string | undefined;
-}
+import { RRGraphQLContext } from "../../types/RRGraphQLContext";
 
 export const createContext: ContextFunction<[StandaloneServerContextFunctionArgument], RRGraphQLContext> = async ({ req, res }) => {
     const authorizationHeader = req.headers.authorization;

@@ -3,7 +3,8 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { loadFiles } from '@graphql-tools/load-files';
-import { type RRGraphQLContext, createContext } from './graphql/context';
+import { createContext } from './graphql/context';
+import { RRGraphQLContext } from './types/RRGraphQLContext';
 
 const port = 3000;
 
@@ -19,7 +20,7 @@ const main = async () => {
         console.log("GraphQL Schema Created");
 
         const server = new ApolloServer<RRGraphQLContext>({ schema });
-        console.log("Apollo Server Created");
+        console.log("Apollo Server Created")
 
         const { url } = await startStandaloneServer(server, {
             listen: { port },
