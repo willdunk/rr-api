@@ -1,33 +1,22 @@
 import { type RefreshToken, User } from "../../models/user";
-import jwt from 'jsonwebtoken';
-import { generateHashedPassword } from "../../utils/generateHashedPassword";
 import { isDefined } from "../../utils/ts/isDefined";
-import { secrets } from "./secrets";
+import { encodeAndSaveToken } from "../jwt/encodeAndSaveToken";
+import { decode } from "../jwt/decode";
+import { type Tokens } from "../jwt/types";
 
-export const refresh = async (refreshToken: string) => {
-    const decoded = jwt.verify(refreshToken, secrets.refreshTokenSecret) as { userId: string };
-    const user = await User.findById(decoded.userId);
+export const refresh = async (refreshToken: string): Promise<Tokens> => {
+    const decodedUser = decode(refreshToken, 'refresh');
+    const user = await User.findById(decodedUser.userId);
     if (!user) {
         throw new Error('User not found');
     }
 
+    // TODO: @willdunk: This is just straight up wrong. A hash will never be equal to the raw string that a user can provide. This comparison should be using bcrypt to compare
     const matchingToken: RefreshToken | undefined = user.refreshTokenHashes?.find(token => token.refreshTokenHash === refreshToken);
 
     if (isDefined(matchingToken) && matchingToken.expiresOn < new Date()) {
         throw new Error('Unable to refresh token');
     }
 
-    const accessToken = jwt.sign({ userId: user._id }, secrets.accessTokenSecret, { expiresIn: '15m' });
-    const newRefreshToken = jwt.sign({ userId: user._id }, secrets.refreshTokenSecret, { expiresIn: '30d' });
-
-    const expiresOn = new Date();
-    expiresOn.setDate(expiresOn.getDate() + 30);
-
-    const newRefreshTokenHash = await generateHashedPassword(newRefreshToken);
-    const newRefreshTokenObject: RefreshToken = { refreshTokenHash: newRefreshTokenHash, expiresOn };
-
-    // TODO: @willdunk: user updates for mongoose are not propagating types to all attributes
-    await user.updateOne({ '$addToSet': { refreshTokenHashes: newRefreshTokenObject } });
-
-    return { accessToken, refreshToken: newRefreshToken };
+    return await encodeAndSaveToken(user._id);
 }

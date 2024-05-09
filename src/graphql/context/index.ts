@@ -1,7 +1,7 @@
 import { ContextFunction } from "@apollo/server";
 import { StandaloneServerContextFunctionArgument } from "@apollo/server/dist/esm/standalone";
 import jwt from 'jsonwebtoken';
-import { secrets } from "../../modules/auth/secrets";
+import { secrets } from "../../modules/jwt/secrets";
 import { isDefined } from "../../utils/ts/isDefined";
 import { RRGraphQLContext } from "../../types/RRGraphQLContext";
 
