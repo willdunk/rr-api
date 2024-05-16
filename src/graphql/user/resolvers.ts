@@ -1,14 +1,12 @@
-import { MutationCreateNewUserArgs, QueryUserArgs, Resolvers } from "../../generated/generatedTypes";
-import { addNewPropertyToUser } from "../../modules/user/addNewPropertyToUser";
-import { createNewUser } from "../../modules/user/createNewUser";
-import { getUser } from "../../modules/user/getUser";
+import { Resolvers } from "../../generated/generatedTypes";
+import { user, createNewUser, addNewPropertyToUser } from "../../handlers/user";
 
 export const resolvers: Resolvers = {
     Query: {
-        user: (parent, args: QueryUserArgs, contextValue, info) => getUser(args.userId),
+        user,
     },
     Mutation: {
-        createNewUser: (parent, args: MutationCreateNewUserArgs, contextValue, info) => createNewUser(args.user),
-        addNewPropertyToUser: (parent, args, contextValue, info) => addNewPropertyToUser(args.userId, args.propertyId),
+        createNewUser,
+        addNewPropertyToUser,
     }
 };
